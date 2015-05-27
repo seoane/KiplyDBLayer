@@ -48,6 +48,7 @@
     <Compile Include="Factories\DaoFactory.cs" />
     <Compile Include="entities\ApplicationLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ConfigurationParameterManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
