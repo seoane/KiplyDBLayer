@@ -16,40 +16,62 @@ namespace KiplyDBLayer
             
         }
 
-        public List<ApplicationLog> getAll() {
-            String queryString = "Select * from Application_Logs";
-            List<QueryParameter> _queryParameters = null;
-            OdbcDataReader _dataReader = ODBCConnection.query("dsn=" + ConfigurationManager.AppSettings["ODBCdsn"], 
-                queryString, _queryParameters);
-            return null;
+        public List<ApplicationLog> getAll()
+        {
+            String queryString = "Select * from application_logs";
+            List<ApplicationLog> _applicationLogs = new List<ApplicationLog>();
+            List<QueryParameter> _queryParameters = new List<QueryParameter>();
+
+            OdbcDataReader _dataReader = ODBCConnection.query("dsn=" + ConfigurationManager.AppSettings["ODBCdsn"], queryString, _queryParameters);
+            if (_dataReader.HasRows)
+                while (_dataReader.Read())
+                {
+                    ApplicationLog applicationLog = new ApplicationLog(_dataReader);
+                    _applicationLogs.Add(applicationLog);
+                }
+            _dataReader.Close();
+            return _applicationLogs;
         }
 
-        public List<ApplicationLog> getLasts(int minutes = 60) {
-            DateTime timestamp = new DateTime().AddMinutes(-minutes);
-            String queryString = "Select * from ApplicationLogs where timestamp >= @log_timestamp";
+        public List<ApplicationLog> getLasts(int minutes)
+        {
+            long timestamp = DateTime.Now.AddMinutes(-minutes).Ticks - new DateTime(1970, 1, 1).Ticks;
+            timestamp /= TimeSpan.TicksPerSecond;
+
+            String queryString = "Select * from application_logs where log_timestamp >= ?";
+            List<ApplicationLog> _applicationLogs = new List<ApplicationLog>();
             List<QueryParameter> _queryParameters = new List<QueryParameter>();
-            _queryParameters.Add(new QueryParameter("log_timestamp", timestamp.ToString()));
-            OdbcDataReader _dataReader = ODBCConnection.query("dsn=" + ConfigurationManager.AppSettings["ODBCdsn"], 
-                queryString, _queryParameters);
-            return null;
+            QueryParameter queryParameter = new QueryParameter("@log_timestamp", timestamp.ToString());
+            _queryParameters.Add(queryParameter);
+
+            OdbcDataReader _dataReader = ODBCConnection.query("dsn=" + ConfigurationManager.AppSettings["ODBCdsn"], queryString, _queryParameters);
+            if (_dataReader.HasRows)
+                while (_dataReader.Read())
+                {
+                   ApplicationLog applicationLog = new ApplicationLog(_dataReader);
+                   _applicationLogs.Add(applicationLog);
+                }
+            _dataReader.Close();
+            return _applicationLogs;
         }
 
         public ApplicationLog getByUuid(string uuid)
         {
-            String queryString = "Select * from application_logs where uuid like '@uuid'";
-            List<QueryParameter> _queryParameters = new List<QueryParameter>();
-            _queryParameters.Add(new QueryParameter("uuid", uuid));
-            OdbcDataReader _dataReader = ODBCConnection.query("dsn=" + ConfigurationManager.AppSettings["ODBCdsn"],
-                queryString, _queryParameters);
 
-            ApplicationLog applicationLog = null;
-            while (_dataReader.Read())
-            {
-                applicationLog = new ApplicationLog(_dataReader);
-            }
-            _dataReader.Close();
-            return applicationLog;
+                string queryString = "Select * from application_logs where uuid = ?";
+                ApplicationLog applicationLog = null;
+                List<QueryParameter> _queryParameters = new List<QueryParameter>();
+                QueryParameter queryParameter = new QueryParameter("@uuid",uuid);
+                _queryParameters.Add(queryParameter);
+
+                OdbcDataReader _dataReader = ODBCConnection.query("dsn=" + ConfigurationManager.AppSettings["ODBCdsn"], queryString, _queryParameters);
+                if(_dataReader.HasRows)
+                    while (_dataReader.Read())
+                    {
+                        applicationLog = new ApplicationLog(_dataReader);
+                    }
+                _dataReader.Close();
+                return applicationLog;
         }
-
     }
 }

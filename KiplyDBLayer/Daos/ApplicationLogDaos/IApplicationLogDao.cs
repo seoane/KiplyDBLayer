@@ -15,7 +15,7 @@ namespace KiplyDBLayer
 
         //public void update(SqlConnection connection, ApplicationLog applicationLog);
 
-        List<ApplicationLog> getLasts(int minutes = 60);
+        List<ApplicationLog> getLasts(int minutes = 240);
 
         List<ApplicationLog> getAll();
 

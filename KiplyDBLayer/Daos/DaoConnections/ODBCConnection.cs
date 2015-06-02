@@ -11,7 +11,7 @@ namespace KiplyDBLayer
 {
     class ODBCConnection
     {
-        private static OdbcConnection openConnection(String connectionString)
+        public static OdbcConnection openConnection(string connectionString)
         {
             return new OdbcConnection(connectionString);
         }
@@ -27,13 +27,12 @@ namespace KiplyDBLayer
                 }
             }
 
-            Console.WriteLine(command.ToString());
-            using (OdbcConnection conn = openConnection(connectionString))
-            {
-                command.Connection = conn;
-                conn.Open();
-                return command.ExecuteReader();
-            }
+            OdbcConnection conn = openConnection(connectionString);
+            
+            command.Connection = conn;
+            conn.Open();
+            return command.ExecuteReader();
+            
         }
     }
 

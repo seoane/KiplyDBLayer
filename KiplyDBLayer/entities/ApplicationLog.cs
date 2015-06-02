@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -48,46 +49,76 @@ namespace KiplyDBLayer
         public float kiply_min_cpu { get; set; }
         public float kiply_min_mem { get; set; }
 
+        private int DbStringToInt(DbDataReader dataReader,int index)
+        {
+            try
+            {
+                string arg = dataReader.GetString(index);
+                return int.Parse(arg);
+            }
+            catch { return -1; }
+        }
+
+        private float DbStringToFloat(DbDataReader dataReader, int index)
+        {
+            try
+            {
+                string arg = dataReader.GetString(index);
+                return float.Parse(arg);
+            }
+            catch { return -1; }
+        }
+
+        private string DbStringToString(DbDataReader dataReader, int index)
+        {
+            try
+            {
+                string arg = dataReader.GetString(index);
+                return arg;
+            }
+            catch { return ""; }
+        }
+        
         public ApplicationLog(DbDataReader dataReader)
         {
-            string uuid= dataReader.GetString(0);
-            string computer_username= dataReader.GetString(1);
-            int company_id= dataReader.GetInt32(2);
-            string ip_private_internal_1= dataReader.GetString(3);
-            string ip_private_internal_2= dataReader.GetString(4);
-            string ip_private_internal_3= dataReader.GetString(5);
-            string ip_external= dataReader.GetString(6);
-            long log_timestamp= dataReader.GetInt32(7);
-            string machine_name= dataReader.GetString(8);
-            int office_id = dataReader.GetInt32(9);
-            int request_id = dataReader.GetInt32(10);
-            int user_id = dataReader.GetInt32(11);
-            int application_id = dataReader.GetInt32(12);
-            int application_version_id= dataReader.GetInt32(13);
-            int os_application_id = dataReader.GetInt32(14);
-            int os_application_version_id = dataReader.GetInt32(15);
-            float avg_cpu= dataReader.GetFloat(16);
-            float avg_mem= dataReader.GetFloat(17);
-            long from_timestamp = dataReader.GetInt32(18);
-            string from_timezone= dataReader.GetString(19);
-            float max_cpu= dataReader.GetFloat(20);
-            float max_mem= dataReader.GetFloat(21);
-            float min_cpu= dataReader.GetFloat(22);
-            float min_mem= dataReader.GetFloat(23);
-            string process_name= dataReader.GetString(24);
-            long to_timestamp = dataReader.GetInt32(25);
-            string to_timezone= dataReader.GetString(27);
-            string window_title= dataReader.GetString(28);
-            string detail= dataReader.GetString(29);
-            string document= dataReader.GetString(30);
-            string client_version= dataReader.GetString(31);
-            string context= dataReader.GetString(32);
-            float kiply_max_cpu= dataReader.GetFloat(33);
-            float kiply_max_mem= dataReader.GetFloat(34);
-            float kiply_min_cpu= dataReader.GetFloat(35);
-            float kiply_min_mem= dataReader.GetFloat(36);
-            float kiply_avg_cpu= dataReader.GetFloat(37);
-            float kiply_avg_mem= dataReader.GetFloat(38);
+            uuid = DbStringToString(dataReader,0);
+            computer_username = DbStringToString(dataReader, 1);
+            company_id = DbStringToInt(dataReader, 2);
+            ip_private_internal_1 = DbStringToString(dataReader, 3);
+            ip_private_internal_2 = DbStringToString(dataReader, 4);
+            ip_private_internal_3 = DbStringToString(dataReader, 5);
+            ip_external= DbStringToString(dataReader,6);
+            log_timestamp= DbStringToInt(dataReader,7);
+            machine_name= DbStringToString(dataReader,8);
+            office_id = DbStringToInt(dataReader,9);
+            request_id = DbStringToInt(dataReader,10);
+            user_id = DbStringToInt(dataReader,11);
+            application_id = DbStringToInt(dataReader,12);
+            application_version_id= DbStringToInt(dataReader,13);
+            os_application_id = DbStringToInt(dataReader,14);
+            os_application_version_id = DbStringToInt(dataReader,15);
+            avg_cpu= DbStringToFloat(dataReader,16);
+            avg_mem= DbStringToFloat(dataReader,17);
+            from_timestamp = DbStringToInt(dataReader,18);
+            from_timezone= DbStringToString(dataReader,19);
+            max_cpu= DbStringToFloat(dataReader,20);
+            max_mem= DbStringToFloat(dataReader,21);
+            min_cpu= DbStringToFloat(dataReader,22);
+            min_mem= DbStringToFloat(dataReader,23);
+            process_name= DbStringToString(dataReader,24);
+            to_timestamp = DbStringToInt(dataReader,25);
+            to_timezone= DbStringToString(dataReader,27);
+            window_title= DbStringToString(dataReader,28);
+            detail= DbStringToString(dataReader,29);
+            document= DbStringToString(dataReader,30);
+            client_version= DbStringToString(dataReader,31);
+            context= DbStringToString(dataReader,32);
+            kiply_max_cpu= DbStringToFloat(dataReader,33);
+            kiply_max_mem= DbStringToFloat(dataReader,34);
+            kiply_min_cpu= DbStringToFloat(dataReader,35);
+            kiply_min_mem= DbStringToFloat(dataReader,36);
+            kiply_avg_cpu= DbStringToFloat(dataReader,37);
+            kiply_avg_mem = DbStringToFloat(dataReader,38);
         }
     }
 }
