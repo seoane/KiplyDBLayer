@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KiplyDBLayer
 {
-    static class DaoFactory
+    public static class DaoFactory
     {        
         private static IApplicationLogDao applicationLogDao = null;
 

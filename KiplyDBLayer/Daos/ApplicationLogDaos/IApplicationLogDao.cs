@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KiplyDBLayer
 {
-    interface IApplicationLogDao
+    public interface IApplicationLogDao
     {
         //public ApplicationLog create(SqlConnection connection, ApplicationLog applicationLog);
 
@@ -15,8 +15,11 @@ namespace KiplyDBLayer
 
         //public void update(SqlConnection connection, ApplicationLog applicationLog);
 
-        public List<ApplicationLog> getAll();
+        List<ApplicationLog> getLasts(int minutes = 60);
 
-        public ApplicationLog getLasts(int minutes = 60);
+        List<ApplicationLog> getAll();
+
+        ApplicationLog getByUuid(String uuid);
+
     }
 }

@@ -1,0 +1,6 @@
+KiplyDBLayer/obj/
+KiplyDBLayer/bin/
+KiplyDBLayer.Test/obj/
+KiplyDBLayer.Test/bin/
+KiplyDBLayer/obj/*
+KiplyDBLayer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache

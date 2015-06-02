@@ -10,21 +10,13 @@ namespace KiplyDBLayer
 {
     class QueryParameter
     {
-        public QueryParameter(String name, DbType type, String value)
+        public QueryParameter(String name, String value)
         {
-            this.name = name;
-            this.type = type;
+            this.name = "@"+name;
             this.value = value;
         }
         public String name { get; set; }
-        public DbType type { get; set; }
         public String value { get; set; }
-        public String getComparation() {
-            switch (type)
-            {
-                default:
-                    return "";
-            }
-        }
+
      }
 }

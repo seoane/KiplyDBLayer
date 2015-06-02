@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Odbc;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,22 +18,16 @@ namespace KiplyDBLayer
 
         public static OdbcDataReader query(String connectionString,String queryString, List<QueryParameter> _queryParameters)
         {
-            //String table;
-            //String commandString = "Select * from " + table;
-            //bool firstParameter = true;
             OdbcCommand command = new OdbcCommand(queryString);
 
-            if (_queryParameters.Count > 0 ) {
-                //commandString += " where ";
+            if (_queryParameters !=null  && _queryParameters.Count > 0 ) {
                 foreach (QueryParameter queryParameter in _queryParameters)
                 {
-                    //if (!firstParameter) commandString+= " AND ";
-                    //else firstParameter = false;
-                    //commandString += queryParameter.name + queryParameter.getComparation() + "?";
-                    command.Parameters.Add("@" + queryParameter.name, queryParameter.GetType()).Value = queryParameter.value;
+                    command.Parameters.AddWithValue(queryParameter.name, queryParameter.value);
                 }
             }
 
+            Console.WriteLine(command.ToString());
             using (OdbcConnection conn = openConnection(connectionString))
             {
                 command.Connection = conn;
